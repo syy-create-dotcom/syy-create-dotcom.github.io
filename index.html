@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>yiyi - 个人主页</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --bg: #FFFDF8;
+    --card: #FFFFFF;
+    --accent: #F5E1C4;
+    --accent2: #FFE4C4;
+    --text: #3D3846;
+    --text-light: #6B6578;
+    --text-muted: #948EA0;
+    --border: #EDE8E0;
+    --tag-bg: #FFF4E8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ── floating doodle bg ── */
+  .doodle-bg {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.12;
+  }
+
+  .doodle-bg.cat-1 { top: 12vh; left: 6vw; animation: floatA 7s ease-in-out infinite; }
+  .doodle-bg.cat-2 { top: 55vh; right: 5vw; animation: floatB 8s ease-in-out infinite 1s; }
+  .doodle-bg.dog-1 { top: 30vh; right: 10vw; animation: floatA 9s ease-in-out infinite 2s; }
+  .doodle-bg.dog-2 { top: 70vh; left: 8vw; animation: floatB 7.5s ease-in-out infinite 0.5s; }
+
+  @keyframes floatA {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-12px) rotate(1deg); }
+    66% { transform: translateY(6px) rotate(-1deg); }
+  }
+  @keyframes floatB {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(-2deg); }
+  }
+
+  /* ── main container ── */
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── hero ── */
+  .hero {
+    min-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 80px 0 60px;
+    position: relative;
+  }
+
+  .hero-pretitle {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .hero-name {
+    font-size: clamp(3rem, 7vw, 5rem);
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+
+  .hero-name .wave {
+    display: inline-block;
+    animation: wave 2s ease-in-out infinite;
+    transform-origin: 70% 70%;
+  }
+
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(14deg); }
+    40% { transform: rotate(-8deg); }
+    60% { transform: rotate(10deg); }
+    80% { transform: rotate(-4deg); }
+  }
+
+  .hero-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+
+  .hero-hometown {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-style: italic;
+    margin-bottom: 40px;
+  }
+
+  .hero-scroll {
+    align-self: center;
+    margin-top: auto;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ── section shared ── */
+  section {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text);
+  }
+
+  .section-title::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+    margin-left: 8px;
+  }
+
+  /* ── about ── */
+  .about-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
+
+  .about-text {
+    flex: 1;
+  }
+
+  .about-text p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    font-size: 1.02rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .tag {
+    background: var(--tag-bg);
+    color: var(--text);
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid var(--accent);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .tag:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  .about-doodle {
+    flex-shrink: 0;
+    opacity: 0.8;
+    animation: floatA 6s ease-in-out infinite;
+  }
+
+  /* ── education ── */
+  .edu-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .edu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+
+  .edu-school {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .edu-major {
+    color: var(--text-light);
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .edu-year {
+    display: inline-block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    background: var(--tag-bg);
+    padding: 2px 12px;
+    border-radius: 10px;
+  }
+
+  /* ── projects ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+
+  .project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+  }
+
+  .project-icon { font-size: 2rem; margin-bottom: 12px; }
+
+  .project-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--text-light);
+  }
+
+  /* ── footer ── */
+  footer {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+  }
+
+  footer a {
+    color: var(--text-light);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--text-muted);
+    transition: color 0.2s;
+  }
+  footer a:hover { color: var(--text); }
+
+  /* ── fade-in ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 600px) {
+    .about-content { flex-direction: column; gap: 20px; }
+    .about-doodle { align-self: center; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .hero { min-height: 85vh; padding: 60px 0 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- floating doodles -->
+<svg class="doodle-bg cat-1" width="96" height="96" viewBox="0 0 96 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="48" cy="42" r="22" stroke="#D4A574" stroke-width="2.5" fill="none"/>
+  <path d="M30 32 L38 42 L30 48" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M66 32 L58 42 L66 48" stroke="#D4A574" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="40" cy="44" rx="3" ry="3.5" fill="#D4A574"/>
+  <ellipse cx="56" cy="44" rx="3" ry="3.5" fill="#D4A574"/>
+  <ellipse cx="48" cy="50" rx="2.5" ry="2" fill="#D4A574"/>
+  <path d="M42 52 Q48 56 54 52" stroke="#D4A574" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <line x1="48" y1="64" x2="48" y2="78" stroke="#D4A574" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M38 72 Q48 82 58 72" stroke="#D4A574" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>
+
+<svg class="doodle-bg cat-2" width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="40" cy="44" rx="18" ry="16" stroke="#E0B88A" stroke-width="2.5" fill="none"/>
+  <path d="M26 38 L32 46 L26 50" stroke="#E0B88A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M54 38 L48 46 L54 50" stroke="#E0B88A" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="34" cy="46" r="2.5" fill="#E0B88A"/>
+  <circle cx="46" cy="46" r="2.5" fill="#E0B88A"/>
+  <path d="M37 52 Q40 55 43 52" stroke="#E0B88A" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M40 60 L40 70" stroke="#E0B88A" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
+
+<svg class="doodle-bg dog-1" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="50" cy="50" rx="24" ry="20" stroke="#C9A87C" stroke-width="2.5" fill="none"/>
+  <ellipse cx="38" cy="36" rx="10" ry="13" stroke="#C9A87C" stroke-width="2.5" fill="none"/>
+  <ellipse cx="62" cy="36" rx="10" ry="13" stroke="#C9A87C" stroke-width="2.5" fill="none"/>
+  <circle cx="38" cy="50" r="3" fill="#C9A87C"/>
+  <circle cx="58" cy="50" r="3" fill="#C9A87C"/>
+  <ellipse cx="48" cy="56" rx="4" ry="3" fill="#C9A87C"/>
+  <path d="M44 58 Q50 62 56 58" stroke="#C9A87C" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M50 70 L50 82" stroke="#C9A87C" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M38 78 Q50 86 62 78" stroke="#C9A87C" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>
+
+<svg class="doodle-bg dog-2" width="88" height="88" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="44" cy="46" rx="20" ry="16" stroke="#D4A574" stroke-width="2.5" fill="none"/>
+  <ellipse cx="34" cy="36" rx="8" ry="10" stroke="#D4A574" stroke-width="2.5" fill="none"/>
+  <ellipse cx="54" cy="36" rx="8" ry="10" stroke="#D4A574" stroke-width="2.5" fill="none"/>
+  <circle cx="36" cy="48" r="2.5" fill="#D4A574"/>
+  <circle cx="52" cy="48" r="2.5" fill="#D4A574"/>
+  <path d="M41 53 Q44 56 47 53" stroke="#D4A574" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M44 62 L44 72" stroke="#D4A574" stroke-width="2.5" stroke-linecap="round"/>
+</svg>
+
+<!-- main content -->
+<div class="container">
+
+  <!-- Hero -->
+  <header class="hero">
+    <p class="hero-pretitle">// hello, world</p>
+    <h1 class="hero-name">yiyi <span class="wave">👋</span></h1>
+    <p class="hero-subtitle">湖南大学 · 计算机学院 · 智能科学与技术</p>
+    <p class="hero-hometown">一个在新疆长大的河北人</p>
+    <p class="hero-scroll">↓ 了解更多</p>
+  </header>
+
+  <!-- About Me -->
+  <section id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="about-content">
+      <div class="about-text">
+        <p>
+          嘿，我是 yiyi！一个热爱创造、享受生活的人。
+          目前在湖南大学计算机学院攻读智能科学与技术专业，对<strong>计算机视觉</strong>方向充满热情。
+          写代码、画画、听音乐、做动画——这些都是我理解世界的方式。
+        </p>
+        <div class="tags">
+          <span class="tag">🎨 绘画</span>
+          <span class="tag">✨ 动画</span>
+          <span class="tag">🎵 音乐</span>
+          <span class="tag">👁️ 计算机视觉</span>
+          <span class="tag">🤖 AI</span>
+        </div>
+      </div>
+      <div class="about-doodle">
+        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="50" r="28" stroke="#D4A574" stroke-width="2.8" fill="none"/>
+          <path d="M32 36 L42 50 L32 58" stroke="#D4A574" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M88 36 L78 50 L88 58" stroke="#D4A574" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="48" cy="52" r="3.5" fill="#D4A574"/>
+          <circle cx="72" cy="52" r="3.5" fill="#D4A574"/>
+          <ellipse cx="60" cy="60" rx="3" ry="2.5" fill="#D4A574"/>
+          <path d="M52 63 Q60 68 68 63" stroke="#D4A574" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path d="M60 78 L60 100" stroke="#D4A574" stroke-width="2.8" stroke-linecap="round"/>
+          <path d="M45 90 Q60 104 75 90" stroke="#D4A574" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <!-- paw -->
+          <ellipse cx="38" cy="70" rx="5" ry="4" stroke="#D4A574" stroke-width="2" fill="none" transform="rotate(-20 38 70)"/>
+          <ellipse cx="82" cy="70" rx="5" ry="4" stroke="#D4A574" stroke-width="2" fill="none" transform="rotate(20 82 70)"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education" class="fade-in">
+    <h2 class="section-title">Education</h2>
+    <div class="edu-card">
+      <p class="edu-school">🏫 湖南大学</p>
+      <p class="edu-major">计算机学院 · 智能科学与技术</p>
+      <span class="edu-year">本科在读</span>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="fade-in">
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="project-icon">🚧</div>
+        <p class="project-title">项目即将上线</p>
+        <p class="project-desc">正在努力建设中，敬请期待～</p>
+      </div>
+      <div class="project-card">
+        <div class="project-icon">💡</div>
+        <p class="project-title">有新想法？</p>
+        <p class="project-desc">如果你有合作想法，欢迎联系我一起做有趣的项目！</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 yiyi  ·  Built with ☕ and 💛  ·  <a href="https://github.com/syy-create-dotcom">GitHub</a></p>
+  </footer>
+
+</div>
+
+<script>
+(function() {
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in').forEach(function(el) {
+    observer.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
