@@ -362,10 +362,43 @@
     transition: transform 0.3s ease;
   }
   .bear-wrapper.waving .bear-arm-r { animation: armWave 0.4s ease-in-out 3; }
+  .bear-wrapper.walking .bear-sprite { animation: walkBob 0.35s ease-in-out infinite; }
+  .bear-wrapper.jumping .bear-sprite { animation: jumpStretch 0.5s ease-out; }
+  .bear-wrapper.idle .bear-sprite { animation: idleBreathe 3s ease-in-out infinite; }
 
   @keyframes armWave {
     0%,100%{transform:rotate(0deg);}
     50%{transform:rotate(-35deg);}
+  }
+  @keyframes walkBob {
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-6px);}
+  }
+  @keyframes jumpStretch {
+    0%{transform:scale(1, 1);}
+    30%{transform:scale(0.85, 1.15);}
+    100%{transform:scale(1, 1);}
+  }
+  @keyframes idleBreathe {
+    0%,100%{transform:scale(1);}
+    50%{transform:scale(1, 0.96);}
+  }
+
+  /* control hint */
+  .ctrl-hint {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    background: rgba(0,0,0,0.6);
+    color: #FFFA;
+    font-size: 0.8rem;
+    padding: 6px 20px;
+    border-radius: 20px;
+    pointer-events: none;
+    letter-spacing: 0.04em;
+    transition: opacity 0.5s;
   }
 
   /* speech bubble */
@@ -597,52 +630,58 @@
   <div class="bear-sprite">
     <svg width="72" height="80" viewBox="0 0 72 80" fill="none" xmlns="http://www.w3.org/2000/svg">
       <!-- ears -->
-      <circle cx="16" cy="10" r="11" fill="#A0722E" stroke="#000" stroke-width="2.5"/>
-      <circle cx="16" cy="10" r="5" fill="#E8B0A0"/>
-      <circle cx="56" cy="10" r="11" fill="#A0722E" stroke="#000" stroke-width="2.5"/>
-      <circle cx="56" cy="10" r="5" fill="#E8B0A0"/>
+      <circle cx="16" cy="10" r="11" fill="#F0EAE0" stroke="#000" stroke-width="2.5"/>
+      <circle cx="16" cy="10" r="5" fill="#F0C0C0"/>
+      <circle cx="56" cy="10" r="11" fill="#F0EAE0" stroke="#000" stroke-width="2.5"/>
+      <circle cx="56" cy="10" r="5" fill="#F0C0C0"/>
       <!-- head -->
-      <ellipse cx="36" cy="24" rx="24" ry="22" fill="#A0722E" stroke="#000" stroke-width="2.5"/>
+      <ellipse cx="36" cy="24" rx="24" ry="22" fill="#F0EAE0" stroke="#000" stroke-width="2.5"/>
       <!-- inner face -->
-      <ellipse cx="36" cy="30" rx="15" ry="12" fill="#D4A96A"/>
+      <ellipse cx="36" cy="30" rx="15" ry="12" fill="#FFFEFB"/>
       <!-- eyes -->
       <circle cx="28" cy="20" r="4" fill="#000"/>
       <circle cx="44" cy="20" r="4" fill="#000"/>
       <circle cx="30" cy="18" r="1.5" fill="#FFF"/>
       <circle cx="46" cy="18" r="1.5" fill="#FFF"/>
       <!-- nose -->
-      <ellipse cx="36" cy="28" rx="5" ry="3.5" fill="#5C3010"/>
+      <ellipse cx="36" cy="28" rx="5" ry="3.5" fill="#4A3020"/>
       <!-- mouth -->
       <path d="M31 33 Q36 38 41 33" stroke="#000" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <!-- blush -->
+      <ellipse cx="20" cy="28" rx="5" ry="3" fill="#FFD0D0" opacity="0.6"/>
+      <ellipse cx="52" cy="28" rx="5" ry="3" fill="#FFD0D0" opacity="0.6"/>
       <!-- body -->
-      <ellipse cx="36" cy="56" rx="20" ry="18" fill="#A0722E" stroke="#000" stroke-width="2.5"/>
+      <ellipse cx="36" cy="56" rx="20" ry="18" fill="#F0EAE0" stroke="#000" stroke-width="2.5"/>
       <!-- belly -->
-      <ellipse cx="36" cy="58" rx="11" ry="10" fill="#D4A96A"/>
+      <ellipse cx="36" cy="58" rx="11" ry="10" fill="#FFFEFB"/>
       <!-- scarf -->
       <path d="M18 46 Q36 52 54 46" stroke="#E52521" stroke-width="6" fill="none" stroke-linecap="round"/>
       <path d="M48 46 L52 56" stroke="#E52521" stroke-width="5" fill="none" stroke-linecap="round"/>
       <!-- left arm -->
       <g class="bear-arm-l" style="transform-origin:18px 52px;">
-        <ellipse cx="16" cy="56" rx="10" ry="14" fill="#A0722E" stroke="#000" stroke-width="2.5" transform="rotate(20 16 56)"/>
+        <ellipse cx="16" cy="56" rx="10" ry="14" fill="#F0EAE0" stroke="#000" stroke-width="2.5" transform="rotate(20 16 56)"/>
       </g>
       <!-- right arm (waves) -->
       <g class="bear-arm-r" style="transform-origin:56px 52px;">
-        <ellipse cx="56" cy="56" rx="10" ry="14" fill="#A0722E" stroke="#000" stroke-width="2.5" transform="rotate(-20 56 56)"/>
+        <ellipse cx="56" cy="56" rx="10" ry="14" fill="#F0EAE0" stroke="#000" stroke-width="2.5" transform="rotate(-20 56 56)"/>
       </g>
       <!-- feet -->
-      <ellipse cx="24" cy="76" rx="12" ry="7" fill="#7A5020" stroke="#000" stroke-width="2.5"/>
-      <ellipse cx="48" cy="76" rx="12" ry="7" fill="#7A5020" stroke="#000" stroke-width="2.5"/>
+      <ellipse cx="24" cy="76" rx="12" ry="7" fill="#E8E0D5" stroke="#000" stroke-width="2.5"/>
+      <ellipse cx="48" cy="76" rx="12" ry="7" fill="#E8E0D5" stroke="#000" stroke-width="2.5"/>
       <!-- paw pads -->
-      <ellipse cx="20" cy="75" rx="4" ry="3" fill="#D4A96A"/>
-      <ellipse cx="28" cy="75" rx="4" ry="3" fill="#D4A96A"/>
-      <ellipse cx="44" cy="75" rx="4" ry="3" fill="#D4A96A"/>
-      <ellipse cx="52" cy="75" rx="4" ry="3" fill="#D4A96A"/>
+      <ellipse cx="20" cy="75" rx="4" ry="3" fill="#FFFEFB"/>
+      <ellipse cx="28" cy="75" rx="4" ry="3" fill="#FFFEFB"/>
+      <ellipse cx="44" cy="75" rx="4" ry="3" fill="#FFFEFB"/>
+      <ellipse cx="52" cy="75" rx="4" ry="3" fill="#FFFEFB"/>
     </svg>
   </div>
 </div>
 
 <!-- speech bubble -->
-<div class="speech show" id="speech">Hello! 🐻 我是 yiyi~</div>
+<div class="speech show" id="speech">Hello! 我是小白熊 yiyi~</div>
+
+<!-- control hint -->
+<div class="ctrl-hint" id="ctrlHint">← → 走路 &nbsp;|&nbsp; ↑ 跳跃 &nbsp;|&nbsp; 点击我挥手 🐻‍❄️</div>
 
 <!-- main content -->
 <div class="container">
@@ -723,20 +762,50 @@
   document.querySelectorAll('.fade-in').forEach(function(el){ observer.observe(el); });
 })();
 
-// ── BEAR follows mouse ──
+// ── BEAR keyboard controls ──
 var bear = document.getElementById('bear');
 var speech = document.getElementById('speech');
-var bx = window.innerWidth/2, by = window.innerHeight/2;
-var tx = bx, ty = by;
+var hint = document.getElementById('ctrlHint');
 var bearW = 72, bearH = 80;
-var groundY = window.innerHeight - 90;
+var groundY = 0;
+var vx = 0, vy = 0;
+var speed = 160; // pixels per second
+var jumpVel = 320; // jump velocity
+var gravity = 800;
+var friction = 0.85;
+var facingRight = true;
+var isGrounded = false;
+var lastWalkTime = 0;
+var idleTimer = 0;
 
-function updateGround(){ groundY = window.innerHeight - 90; }
+// keys state
+var keys = {};
+var keyPressedRecently = false;
+
+function updateGround() {
+  groundY = window.innerHeight - 90 - bearH;
+  // clamp bear above ground
+  if (bear._y > groundY) bear._y = groundY;
+}
 window.addEventListener('resize', updateGround);
 
-document.addEventListener('mousemove', function(e){
-  tx = e.clientX;
-  ty = e.clientY;
+// init position
+bear._x = window.innerWidth * 0.5;
+bear._y = window.innerHeight * 0.5;
+updateGround();
+if (bear._y > groundY) bear._y = groundY;
+
+document.addEventListener('keydown', function(e) {
+  if (['ArrowLeft','ArrowRight','ArrowUp','Space'].indexOf(e.code) >= 0) {
+    e.preventDefault();
+    keys[e.code] = true;
+    keyPressedRecently = true;
+    hint.style.opacity = '0';
+  }
+});
+
+document.addEventListener('keyup', function(e) {
+  keys[e.code] = false;
 });
 
 // click bear to wave
@@ -745,13 +814,15 @@ bear.style.cursor = 'pointer';
 bear.addEventListener('click', function(e){
   e.stopPropagation();
   bear.classList.add('waving');
-  var msgs = ['Hello! 🐻', 'C++ & Python! 💪', '计算机视觉 🎯', '蜂蜜在哪? 🍯', '一起冒险吧! ⭐'];
+  bear.classList.remove('walking','idle');
+  var msgs = ['Hello! 🐻‍❄️', 'C++ & Python! 💪', '计算机视觉 🎯', '一起冒险吧! ⭐'];
   speech.textContent = msgs[Math.floor(Math.random()*msgs.length)];
   speech.classList.add('show');
   clearTimeout(bear._waveTimer);
   bear._waveTimer = setTimeout(function(){
     bear.classList.remove('waving');
     speech.classList.remove('show');
+    bear.classList.add('idle');
   }, 2000);
 });
 
@@ -781,48 +852,138 @@ function collectCoin(el){
 // periodic speech
 setInterval(function(){
   if(!bear.classList.contains('waving')){
-    speech.textContent = '点我试试! 🐻';
+    speech.textContent = '按方向键控制我! 🎮';
     speech.classList.add('show');
     setTimeout(function(){
       if(!bear.classList.contains('waving')) speech.classList.remove('show');
-    }, 2500);
+    }, 3000);
   }
-}, 20000);
+}, 18000);
 
-// animation loop
-function animate(){
-  // smooth lerp towards mouse
-  bx += (tx - bx) * 0.06;
-  by += (ty - by) * 0.06;
+// hint reappears after inactivity
+setInterval(function(){
+  if(!keyPressedRecently) {
+    hint.style.opacity = '1';
+  }
+  keyPressedRecently = false;
+}, 5000);
 
-  // clamp to viewport
-  var maxX = window.innerWidth - bearW;
-  var maxY = Math.min(groundY - bearH, window.innerHeight - bearH);
-  bx = Math.max(0, Math.min(maxX, bx));
-  by = Math.max(0, Math.min(maxY, by));
+var lastTime = performance.now();
+var dustParticles = [];
 
-  bear.style.left = bx + 'px';
-  bear.style.top = by + 'px';
+function spawnDust() {
+  if (!isGrounded) return;
+  var d = document.createElement('div');
+  d.style.cssText = 'position:fixed;pointer-events:none;z-index:9;width:8px;height:8px;background:#DDD;border-radius:50%;opacity:0.7;transition:all 0.6s ease-out;';
+  d.style.left = (bear._x + bearW/2 + Math.random()*20-10) + 'px';
+  d.style.top = (bear._y + bearH - 5) + 'px';
+  document.body.appendChild(d);
+  requestAnimationFrame(function(){
+    d.style.transform = 'translateY(-30px) scale(0)';
+    d.style.opacity = '0';
+  });
+  setTimeout(function(){ d.remove(); }, 700);
+}
 
-  // flip bear based on direction
+function animate(now) {
+  var dt = Math.min((now - lastTime) / 1000, 0.1);
+  lastTime = now;
+
+  updateGround();
+
+  var moving = false;
+
+  // horizontal input
+  if (bear.classList.contains('waving')) {
+    vx *= friction;
+  } else {
+    if (keys['ArrowLeft']) {
+      vx = -speed;
+      moving = true;
+      facingRight = false;
+    } else if (keys['ArrowRight']) {
+      vx = speed;
+      moving = true;
+      facingRight = true;
+    } else {
+      vx *= friction;
+      if (Math.abs(vx) < 2) vx = 0;
+    }
+
+    // jump
+    if ((keys['ArrowUp'] || keys['Space']) && isGrounded) {
+      vy = -jumpVel;
+      isGrounded = false;
+      bear.classList.add('jumping');
+      bear.classList.remove('walking','idle');
+      if (keys['Space']) keys['Space'] = false; // prevent auto-repeat
+    }
+  }
+
+  // gravity
+  if (!isGrounded) {
+    vy += gravity * dt;
+  }
+
+  // update position
+  bear._x += vx * dt;
+  bear._y += vy * dt;
+
+  // ground collision
+  if (bear._y >= groundY) {
+    if (!isGrounded && vy > 50) {
+      // landed - squash effect
+      bear.classList.add('jumping');
+      spawnDust();
+    }
+    bear._y = groundY;
+    vy = 0;
+    isGrounded = true;
+    bear.classList.remove('jumping');
+  }
+
+  // walls
+  bear._x = Math.max(0, Math.min(window.innerWidth - bearW, bear._x));
+
+  // animation states
+  if (!bear.classList.contains('waving') && !bear.classList.contains('jumping')) {
+    if (moving && isGrounded) {
+      bear.classList.add('walking');
+      bear.classList.remove('idle');
+      if (now - lastWalkTime > 200) {
+        spawnDust();
+        lastWalkTime = now;
+      }
+      idleTimer = 0;
+    } else if (isGrounded && Math.abs(vx) < 2) {
+      bear.classList.remove('walking');
+      idleTimer += dt;
+      if (idleTimer > 0.5) {
+        bear.classList.add('idle');
+      }
+    }
+  }
+
+  // face direction
   var sprite = bear.querySelector('.bear-sprite');
-  if(tx < bx - 5) {
-    sprite.style.transform = 'scaleX(-1)';
-  } else if(tx > bx + 5) {
-    sprite.style.transform = 'scaleX(1)';
+  if (!bear.classList.contains('waving')) {
+    sprite.style.transform = facingRight ? 'scaleX(1)' : 'scaleX(-1)';
   }
 
-  // speech bubble follows bear
-  speech.style.left = (bx - 10) + 'px';
-  speech.style.top = (by - 42) + 'px';
+  // apply position
+  bear.style.left = bear._x + 'px';
+  bear.style.top = bear._y + 'px';
+
+  // speech follows bear
+  speech.style.left = (bear._x - 10) + 'px';
+  speech.style.top = (bear._y - 42) + 'px';
 
   requestAnimationFrame(animate);
 }
 requestAnimationFrame(animate);
 
-// initial position
-bx = window.innerWidth * 0.5;
-by = window.innerHeight * 0.5;
+// initialize bear in idle state
+bear.classList.add('idle');
 </script>
 </body>
 </html>
