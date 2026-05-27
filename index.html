@@ -24,34 +24,100 @@
 
   body {
     font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    background: var(--bg);
+    background: #FAFBFC;
     color: var(--text);
     line-height: 1.8;
     overflow-x: hidden;
     position: relative;
   }
 
-  /* ── floating bg shapes ── */
-  .bg-shape {
+  /* ── background illustration layer ── */
+  .bg-layer {
     position: fixed;
+    inset: 0;
     pointer-events: none;
     z-index: 0;
-    opacity: 0.06;
+    overflow: hidden;
   }
 
-  .bg-shape.s1 { top: 10vh; left: 5vw; animation: floatA 8s ease-in-out infinite; }
-  .bg-shape.s2 { top: 40vh; right: 6vw; animation: floatB 9s ease-in-out infinite 1s; }
-  .bg-shape.s3 { top: 65vh; left: 8vw; animation: floatA 10s ease-in-out infinite 2s; }
-  .bg-shape.s4 { top: 80vh; right: 10vw; animation: floatB 7.5s ease-in-out infinite 0.5s; }
-
-  @keyframes floatA {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    33% { transform: translateY(-16px) rotate(3deg); }
-    66% { transform: translateY(8px) rotate(-3deg); }
+  /* soft gradient orbs */
+  .bg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.25;
   }
-  @keyframes floatB {
+
+  .bg-orb.o1 {
+    width: 520px; height: 520px;
+    background: radial-gradient(circle, rgba(93,155,166,0.45) 0%, transparent 70%);
+    top: -15vh; right: -10vw;
+    will-change: transform;
+  }
+
+  .bg-orb.o2 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(200,164,78,0.3) 0%, transparent 70%);
+    bottom: 5vh; left: -8vw;
+    will-change: transform;
+  }
+
+  .bg-orb.o3 {
+    width: 280px; height: 280px;
+    background: radial-gradient(circle, rgba(93,155,166,0.28) 0%, transparent 70%);
+    top: 55vh; right: -5vw;
+    will-change: transform;
+  }
+
+  /* abstract line-art illustration SVGs */
+  .bg-illust {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.11;
+  }
+
+  .bg-illust.il1 {
+    top: 8vh; left: 3vw;
+    animation: illustDrift 10s ease-in-out infinite;
+  }
+
+  .bg-illust.il2 {
+    top: 42vh; right: 4vw;
+    animation: illustDrift 12s ease-in-out infinite 2s;
+  }
+
+  .bg-illust.il3 {
+    top: 68vh; left: 6vw;
+    animation: illustDrift 11s ease-in-out infinite 4s;
+  }
+
+  .bg-illust.il4 {
+    top: 82vh; right: 8vw;
+    animation: illustDrift 13s ease-in-out infinite 1.5s;
+  }
+
+  @keyframes illustDrift {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-14px) rotate(-4deg); }
+    25% { transform: translateY(-12px) rotate(2deg); }
+    50% { transform: translateY(-8px) rotate(-1deg); }
+    75% { transform: translateY(-18px) rotate(3deg); }
+  }
+
+  /* floating mini dots */
+  .bg-dots {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.18;
+  }
+
+  .bg-dots.d1 { top: 22vh; left: 12vw; animation: dotDrift 6s ease-in-out infinite; }
+  .bg-dots.d2 { top: 50vh; right: 16vw; animation: dotDrift 7s ease-in-out infinite 1.5s; }
+  .bg-dots.d3 { top: 75vh; left: 20vw; animation: dotDrift 8s ease-in-out infinite 3s; }
+
+  @keyframes dotDrift {
+    0%, 100% { transform: translateY(0) translateX(0); }
+    33% { transform: translateY(-20px) translateX(8px); }
+    66% { transform: translateY(-10px) translateX(-6px); }
   }
 
   /* ── main container ── */
@@ -308,21 +374,75 @@
 </head>
 <body>
 
-<!-- background shapes -->
-<svg class="bg-shape s1" width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="70" cy="70" r="68" stroke="#5D9BA6" stroke-width="2" fill="none"/>
-  <circle cx="70" cy="70" r="40" stroke="#5D9BA6" stroke-width="1.5" fill="none" stroke-dasharray="8 6"/>
-</svg>
-<svg class="bg-shape s2" width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <rect x="10" y="10" width="80" height="80" rx="20" stroke="#C8A44E" stroke-width="2.5" fill="none"/>
-  <circle cx="50" cy="50" r="20" stroke="#C8A44E" stroke-width="1.5" fill="none"/>
-</svg>
-<svg class="bg-shape s3" width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M60 10 L75 55 L115 60 L75 65 L60 110 L45 65 L5 60 L45 55 Z" stroke="#5D9BA6" stroke-width="2" fill="none" stroke-linejoin="round"/>
-</svg>
-<svg class="bg-shape s4" width="90" height="90" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="45" cy="45" r="40" stroke="#C8A44E" stroke-width="2" fill="none"/>
-</svg>
+<!-- background illustration layer -->
+<div class="bg-layer">
+  <!-- soft gradient orbs -->
+  <div class="bg-orb o1"></div>
+  <div class="bg-orb o2"></div>
+  <div class="bg-orb o3"></div>
+
+  <!-- line-art illustration: abstract plant / leaf motif -->
+  <svg class="bg-illust il1" width="180" height="200" viewBox="0 0 180 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M90 190 C90 150 40 120 50 70 C55 40 75 20 90 15" stroke="#5D9BA6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M90 15 C100 10 110 15 105 25" stroke="#5D9BA6" stroke-width="2" fill="none" stroke-linecap="round"/>
+    <ellipse cx="72" cy="38" rx="18" ry="36" transform="rotate(-30 72 38)" stroke="#C8A44E" stroke-width="2.5" fill="none" opacity="0.7"/>
+    <ellipse cx="108" cy="42" rx="16" ry="32" transform="rotate(25 108 42)" stroke="#C8A44E" stroke-width="2.5" fill="none" opacity="0.7"/>
+    <circle cx="38" cy="70" r="5" fill="#5D9BA6" opacity="0.5"/>
+    <circle cx="132" cy="68" r="4" fill="#5D9BA6" opacity="0.5"/>
+    <circle cx="62" cy="30" r="3" fill="#C8A44E" opacity="0.4"/>
+    <circle cx="115" cy="52" r="3.5" fill="#C8A44E" opacity="0.4"/>
+  </svg>
+
+  <!-- line-art: abstract wave / cloud motif -->
+  <svg class="bg-illust il2" width="200" height="140" viewBox="0 0 200 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 100 C30 60 50 100 70 70 C90 40 110 100 130 70 C150 40 170 100 190 80" stroke="#5D9BA6" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M10 115 C30 85 50 115 70 90 C90 65 110 115 130 90 C150 65 170 115 190 95" stroke="#C8A44E" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="30" cy="55" r="2.5" fill="#5D9BA6" opacity="0.45"/>
+    <circle cx="100" cy="40" r="2" fill="#5D9BA6" opacity="0.4"/>
+    <circle cx="170" cy="62" r="2.5" fill="#C8A44E" opacity="0.45"/>
+  </svg>
+
+  <!-- line-art: abstract sun / geometric motif -->
+  <svg class="bg-illust il3" width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="80" cy="80" r="30" stroke="#C8A44E" stroke-width="2.5" fill="none"/>
+    <circle cx="80" cy="80" r="50" stroke="#5D9BA6" stroke-width="1.5" fill="none" stroke-dasharray="6 8"/>
+    <line x1="80" y1="18" x2="80" y2="38" stroke="#5D9BA6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="80" y1="122" x2="80" y2="142" stroke="#5D9BA6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="18" y1="80" x2="38" y2="80" stroke="#5D9BA6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="122" y1="80" x2="142" y2="80" stroke="#5D9BA6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="36" y1="36" x2="50" y2="50" stroke="#5D9BA6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="110" y1="110" x2="124" y2="124" stroke="#5D9BA6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="124" y1="36" x2="110" y2="50" stroke="#5D9BA6" stroke-width="2" stroke-linecap="round"/>
+    <line x1="50" y1="110" x2="36" y2="124" stroke="#5D9BA6" stroke-width="2" stroke-linecap="round"/>
+  </svg>
+
+  <!-- line-art: abstract flowing line -->
+  <svg class="bg-illust il4" width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M10 80 Q40 20 80 80 Q120 140 150 80" stroke="#C8A44E" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M10 95 Q40 45 80 95 Q120 145 150 95" stroke="#5D9BA6" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+    <circle cx="40" cy="68" r="3.5" fill="#5D9BA6" opacity="0.5"/>
+    <circle cx="120" cy="100" r="3" fill="#C8A44E" opacity="0.5"/>
+    <circle cx="80" cy="50" r="2.5" fill="#C8A44E" opacity="0.35"/>
+  </svg>
+
+  <!-- floating mini dots -->
+  <svg class="bg-dots d1" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="10" r="3" fill="#5D9BA6"/>
+    <circle cx="30" cy="25" r="2" fill="#C8A44E"/>
+    <circle cx="8" cy="30" r="2.5" fill="#5D9BA6" opacity="0.6"/>
+    <circle cx="28" cy="8" r="2" fill="#C8A44E" opacity="0.6"/>
+  </svg>
+  <svg class="bg-dots d2" width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="15" cy="15" r="2.5" fill="#C8A44E"/>
+    <circle cx="35" cy="30" r="3" fill="#5D9BA6"/>
+    <circle cx="10" cy="40" r="2" fill="#5D9BA6" opacity="0.5"/>
+  </svg>
+  <svg class="bg-dots d3" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="8" cy="8" r="2.5" fill="#5D9BA6"/>
+    <circle cx="25" cy="18" r="2" fill="#C8A44E"/>
+    <circle cx="12" cy="28" r="2" fill="#C8A44E" opacity="0.5"/>
+  </svg>
+</div>
 
 <!-- main content -->
 <div class="container">
@@ -400,6 +520,7 @@
 
 <script>
 (function() {
+  // scroll fade-in
   var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
       if (entry.isIntersecting) {
@@ -411,6 +532,47 @@
   document.querySelectorAll('.fade-in').forEach(function(el) {
     observer.observe(el);
   });
+
+  // floating orbs animation (JS-driven: continuous float + scroll/mouse parallax)
+  var orbs = document.querySelectorAll('.bg-orb');
+  var scrollY = 0;
+  var mouseX = 0, mouseY = 0;
+  var targetMouseX = 0, targetMouseY = 0;
+
+  window.addEventListener('scroll', function() {
+    scrollY = window.pageYOffset;
+  }, { passive: true });
+
+  window.addEventListener('mousemove', function(e) {
+    targetMouseX = (e.clientX / window.innerWidth - 0.5) * 30;
+    targetMouseY = (e.clientY / window.innerHeight - 0.5) * 30;
+  }, { passive: true });
+
+  var phases = [0, 2.1, 4.5];
+  var floatSpeeds = [12, 15, 14];
+
+  function animate() {
+    mouseX += (targetMouseX - mouseX) * 0.03;
+    mouseY += (targetMouseY - mouseY) * 0.03;
+    var t = performance.now() / 1000;
+
+    orbs.forEach(function(orb, i) {
+      var ft = t + phases[i];
+      var spd = floatSpeeds[i];
+      var floatX = Math.sin(ft / spd * Math.PI * 2) * 35;
+      var floatY = Math.cos(ft / spd * Math.PI * 2) * 30;
+      var floatS = 1 + Math.sin(ft / (spd + 3) * Math.PI * 2) * 0.06;
+
+      var sx = floatX + mouseX * (i + 1) * 0.4 + scrollY * 0.04;
+      var sy = floatY + mouseY * (i + 1) * 0.3 - scrollY * 0.06;
+
+      orb.style.transform = 'translate(' + sx + 'px, ' + sy + 'px) scale(' + floatS + ')';
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
 })();
 </script>
 </body>
